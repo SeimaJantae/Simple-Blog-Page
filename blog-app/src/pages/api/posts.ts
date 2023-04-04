@@ -7,7 +7,7 @@ const handler: NextApiHandler = (req, res) => {
 
   switch (method) {
     case "GET":
-      const data = readPostsInfo();
+      const data = readPostsInfo(); 
       return res.json({ postInfo: data });
     default:
       return res.status(404).send("Not Found");
