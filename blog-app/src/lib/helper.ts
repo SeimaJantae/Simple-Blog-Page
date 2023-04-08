@@ -1,20 +1,9 @@
-import { NextApiHandler } from "next";
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-const handler: NextApiHandler = (req, res) => {
-  const { method } = req;
+import { PostApiResponse } from "@/utils/types";
 
-  switch (method) {
-    case "GET":
-      const data = readPostsInfo(); 
-      return res.json({ postInfo: data });
-    default:
-      return res.status(404).send("Not Found");
-  }
-};
-
-const readPostsInfo = () => {
+export const readPostsInfo = (): PostApiResponse => {
   const dirPathToRead = path.join(process.cwd(), "posts");
   const dirs = fs.readdirSync(dirPathToRead);
   const posts = dirs.map((filename) => {
@@ -22,7 +11,5 @@ const readPostsInfo = () => {
     const fileContent = fs.readFileSync(filePathToRead, { encoding: "utf-8" });
     return matter(fileContent).data;
   });
-  return posts;
+  return posts as PostApiResponse;
 };
-
-export default handler;
